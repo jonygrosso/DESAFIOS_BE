@@ -1,6 +1,15 @@
+const fs = require ("fs");
 class ProductManager {
     constructor() {
         this.products = [];
+        this.path = "Products.json";
+        this.createFile();
+    }
+
+    createFile() {
+        if (!fs.existsSync(this.path)) {
+            fs.writeFileSync(this.path, JSON.stringify(this.products));
+        }
     }
 
     addProduct(product) {
@@ -18,16 +27,52 @@ class ProductManager {
                               code:product.code, 
                               stock:product.stock};
 
-            this.products.push(producto);
+            this.products = this.getProducts();
+            this.products.push(producto);    
+                              
+            this.saveProducts();
+
             console.log("Producto Agregado!");
         }
     }
+        updateProduct(id, product) {
+        this.products = this.getProducts();
+        let pos = this.products.findIndex(item => item.id === id);
 
+        if (pos > -1) {
+            this.products[pos].title = product.title;
+            this.products[pos].description = product.description;
+            this.products[pos].price = product.price;
+            this.products[pos].thumbnail = product.thumbnail;
+            this.products[pos].code = product.code;
+            this.products[pos].stock = product.stock;
+            this.saveProducts();
+            console.log("Producto actualizado!");
+        } else {
+            console.log("No encontrado!");
+        }
+    }
+    deleteProduct(id) {
+        this.products = this.getProducts();
+        let pos = this.products.findIndex(item => item.id === id);
+
+        if (pos > -1) {
+            this.products.splice(pos, 1); (0,1)
+            this.saveProducts();
+            console.log("Producto #" + id + " borrado!");
+        } else {
+            console.log("No encontrado!");
+        }
+    }
     getProducts() {
-        return this.products;
+        let products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+
+        return products;
     }
 
     getProductById(id) {
+        this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+
         return this.products.find(item => item.id === id) || "No Encontrado!";
 
     }
@@ -47,6 +92,9 @@ class ProductManager {
 
         return max+1;
         
+    }
+    saveProducts() {
+        fs.writeFileSync(this.path, JSON.stringify(this.products));
     }
 }
 const PM = new ProductManager;
