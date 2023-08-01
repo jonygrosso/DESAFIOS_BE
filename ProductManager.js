@@ -33,6 +33,7 @@ class ProductManager {
             this.saveProducts();
 
             console.log("Producto Agregado!");
+            return true;
         }
     }
         updateProduct(id, product) {
@@ -50,6 +51,7 @@ class ProductManager {
             console.log("Producto actualizado!");
         } else {
             console.log("No encontrado!");
+            return false;
         }
     }
     deleteProduct(id) {
@@ -60,8 +62,10 @@ class ProductManager {
             this.products.splice(pos, 1); (0,1)
             this.saveProducts();
             console.log("Producto #" + id + " borrado!");
+            return true;
         } else {
             console.log("No encontrado!");
+            return false;
         }
     }
     getProducts() {
@@ -83,8 +87,10 @@ class ProductManager {
 
     generateId() {
         let max = 0;
+        let products = this.getProducts();
 
-        this.products.forEach(item => {
+
+        products.forEach(item => {
             if (item.id > max) {
                 max = item.id;
             }
