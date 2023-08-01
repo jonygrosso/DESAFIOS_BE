@@ -1,4 +1,4 @@
-const fs = require ("fs");
+import fs from "fs";
 class ProductManager {
     constructor() {
         this.products = [];
@@ -97,7 +97,7 @@ class ProductManager {
         fs.writeFileSync(this.path, JSON.stringify(this.products));
     }
 }
-const PM = new ProductManager;
+/*const PM = new ProductManager;
 console.log(PM.getProducts());
 PM.addProduct({title:"Goma", description:"Goma doble color", price:200, thumbnail:"No Tiene", code:"gom123", stock:10});
 console.log(PM.getProducts());
@@ -105,4 +105,5 @@ PM.addProduct({title:"Lapiz", description:"lapiz comun", price:80, thumbnail:"no
 PM.addProduct({title:"Regla", description:"Regla para medir lo q quieras", price:500, thumbnail:"menos foto", code:"reg123", stock:8});
 console.log(PM.getProducts());
 console.log(PM.getProductById(6));
-console.log(PM.getProductById(1));
+console.log(PM.getProductById(1));*/
+export default ProductManager;
